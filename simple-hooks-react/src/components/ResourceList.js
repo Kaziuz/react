@@ -1,6 +1,10 @@
-import React from 'react';
+import React, {useState,useEffect} from 'react';
 import axios from 'axios';
 
+
+
+// ESTE SERIA EL CLASS COMPONENT ORIGINAL 
+/*
 class ResourceList extends React.Component{
 
     state = { resources: [] }
@@ -24,6 +28,25 @@ class ResourceList extends React.Component{
             <div>{this.state.resources.length}</div>
         );
     }
+}
+*/
+
+// ESTE SERIA EL COMPONENTE FUNCTIONAL REFACTORIZADO
+
+const ResourceList = () => {
+
+    // init state
+    const [resources,setResource] = useState([]);
+
+    const fetchResource = async () => {
+        const res = await axios.get(
+            `https://jsonplaceholder.typicode.com/${this.props.resource}`
+        );
+    }
+
+    
+    return <div>{resources.length}</div>
+    
 }
 
 export default ResourceList;
