@@ -1,39 +1,43 @@
 import React, {useState,useEffect} from 'react';
 import axios from 'axios';
 
-const ResourceList = ({ resource }) => {
+// extraemos la lógica del hook para reutilizarla
+const useResources = (resource) => {
+    const [resources,setResource] = useState([]);// init state + setState
 
-    // init state + setState
-    const [resources,setResource] = useState([]);
-
-    /*
-    const fetchResource = async (resource) => {
-        const res = await axios.get(
-            `https://jsonplaceholder.typicode.com/${resource}`
-        );
-       // this.setState({ resources: res.data })
-       setResource(res.data)
-    }
-    */
-
-    // Esta funciòn se ejecuta la primera vez 
+    // Esta función se ejecuta la primera vez 
     // que se renderiza el componente
     // y cada vez que haya una actualizacion 
     // reemplazando asi willMount y didUpdate
     useEffect( () => {
-        // fetchResource(resource)
         (async resource => {
             const res = await axios.get(
                 `https://jsonplaceholder.typicode.com/${resource}`
             );
 
-            setResource(res.data)
-        })(resource); // defino e invoco esta función dentro de use effect
-    },[resource]) 
+        setResource(res.data) // set state
 
+        })(resource); // defino e invoco esta función dentro de use effect
+    },
+    [resource]) // didUpdate, recordar reglas!!!
+
+    return resources;
+}
+
+const ResourceList = ({ resource }) => {
+
+    const resources = useResources(resource);
     
-    return <div>{resources.length}</div>
-    
+    return (
+        <ul>{
+            resources.map(
+                record => 
+                    <div key={record.id}>
+                        <li>{record.title}</li>
+                    </div>
+            ) 
+        }</ul>
+    );
 }
 
 export default ResourceList;
