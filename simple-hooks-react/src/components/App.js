@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import ResourceList from './ResourceList';
+import UserList from './UserList';
+
 
 const App = () => { 
     // initial state + setState 
@@ -8,6 +10,7 @@ const App = () => {
 
     return (
       <div>
+        <UserList />
         <div>
           <button onClick={() => setResource('posts')}>Posts</button> {/*Hook*/}
           {/* <button onClick={() => this.setState({resource: 'posts'}) }>Posts</button> */}
