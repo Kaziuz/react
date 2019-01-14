@@ -1,0 +1,24 @@
+.icon-left{
+    position: absolute;
+    top:10px;
+    left:10px;
+}
+
+.icon-right{
+    position: absolute;
+    bottom:10px;
+    right:10px;
+}
+
+.mostrar-temporada{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.verano{ background: orange; }
+.invierno{ background: aliceblue; }
+.verano i{ color: yellow; }
+.invierno i { color: blue; }
+
