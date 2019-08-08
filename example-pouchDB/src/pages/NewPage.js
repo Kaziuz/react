@@ -21,11 +21,9 @@ class NewPage extends React.Component {
     async handleSave() {
         this.setState({ saving: true });
 
-        const res = await this.props.onSave({ ...this.state.note });
+        const id = await this.props.onSave({ ...this.state.note });
 
-        console.log('id creadio', res.id)
-        // redireccionamos NO ESTA FUNCIONANDO, mirar con withRouter
-        // this.props.history.replace(`/notes/${ res.id }`)
+        this.props.history.push(`/notes/${ id}`)
     }
 
     updateValue(e) {
