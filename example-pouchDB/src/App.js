@@ -7,7 +7,7 @@ import NavBar from './components/NavBar'
 import NewPage from './pages/NewPage'
 
 import './App.css'
-
+/*
 function App(props) {
 
   const [notes, setNotes] = useState({
@@ -31,7 +31,7 @@ function App(props) {
     console.log('nota que llega', note)
 
     const ids = Object.keys(notes)
-    const id = Math.max(... ids) + 1
+    const id = Math.max(...ids) + 1
 
     note['_id'] = id
 
@@ -40,7 +40,7 @@ function App(props) {
 
     setNotes({
       notes: {
-        ...notes,
+        ...prevNotes,
         [id]: note
       }
     })
@@ -62,6 +62,61 @@ function App(props) {
       </div>
     </BrowserRouter>
   )
+}
+*/
+
+class App extends React.Component {
+  state = {
+    notes: {
+      1: {
+        _id: 1,
+        title: "Hello, world",
+        body: 'Este es el cuerpo de mi nota',
+        updatedAt: new Date()
+      },
+      2: {
+        _id: 2,
+        title: "Hello, world other wase",
+        body: 'Este es el cuerpo de mi nota 2',
+        updatedAt: new Date()
+      }
+    }
+  }
+
+  handleSave = (note) => {
+    // aqui llega la nota a hacerle post
+    const ids = Object.keys(this.state.notes)
+    const id = Math.max(...ids) + 1
+
+    note['_id'] = id
+    const { notes } = this.state
+
+    this.setState({
+      notes: {
+        ...notes,
+        [id]: note
+      }
+    })
+
+    return id
+  }
+
+  render() {
+    return (
+      <BrowserRouter>
+      <div className="App">
+        <NavBar />
+        <div className="app-content">
+          <Route exact path="/" component={props => <IndexPage {...props} notes={this.state.notes}/>} />
+
+          <Route exact path="/notes/:id" component={props => <ShowPage {...props} note={this.state.notes[props.match.params.id]} />} /> 
+
+          <Route path="/new" component={props => <NewPage {...props} onSave={this.handleSave} note={this.state.notes[props.match.params.id]} />} />
+        </div>
+      </div>
+    </BrowserRouter>
+    )
+  }
 }
 
 export default App

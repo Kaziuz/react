@@ -23,6 +23,8 @@ class NewPage extends React.Component {
 
         const res = await this.props.onSave({ ...this.state.note });
 
+        console.log('id creadio', res.id)
+        // redireccionamos NO ESTA FUNCIONANDO, mirar con withRouter
         // this.props.history.replace(`/notes/${ res.id }`)
     }
 
