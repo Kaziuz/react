@@ -1,11 +1,9 @@
 import React from 'react'
 
 export default function ShowPage (props) {
-
-    console.log('props in', props)
-
-    
     const { note } = props
+
+    if (!note) { return null }
     
     return note && <div>
             <h1>{note.title}</h1>

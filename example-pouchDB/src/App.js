@@ -70,23 +70,20 @@ function App(props) {
 class App extends React.Component {
   state = {
     db: new DB('notes-react'),
-    notes: {}
+    notes: {},
+    loading: true
   }
 
   async componentDidMount() {
-
     const notes = await this.state.db.getAllNotes()
-    this.setState({ notes })
+    this.setState({ notes, loading: false })
   }
 
   handleSave = async (note) => {
     // aqui llega la nota a hacerle post
     let res = await this.state.db.createNote(note)
-
     let { id } = res
-
     const { notes } = this.state
-
     this.setState({
       notes: {
         ...notes,
@@ -97,24 +94,34 @@ class App extends React.Component {
     return id
   }
 
+  renderContent() {
+    if(this.state.loading) {
+      return <h2>Loading</h2>
+    }
+
+    return (
+      <div className="app-content">
+      <Route exact path="/" component={props => 
+        <IndexPage {...props} notes={this.state.notes}/>} 
+      />
+
+      <Route exact path="/notes/:id" component={props => 
+        <ShowPage {...props} note={this.state.notes[props.match.params.id]} />}
+      /> 
+
+      <Route path="/new" component={props => 
+        <NewPage {...props} onSave={this.handleSave} note={this.state.notes[props.match.params.id]} />} 
+      />
+    </div>
+    )
+  }
+
   render() {
     return (
       <BrowserRouter>
       <div className="App">
         <NavBar />
-        <div className="app-content">
-          <Route exact path="/" component={props => 
-            <IndexPage {...props} notes={this.state.notes}/>} 
-          />
-
-          <Route exact path="/notes/:id" component={props => 
-            <ShowPage {...props} note={this.state.notes[props.match.params.id]} />}
-          /> 
-
-          <Route path="/new" component={props => 
-            <NewPage {...props} onSave={this.handleSave} note={this.state.notes[props.match.params.id]} />} 
-          />
-        </div>
+        {this.renderContent()}
       </div>
     </BrowserRouter>
     )
