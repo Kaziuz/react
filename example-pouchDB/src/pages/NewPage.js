@@ -18,12 +18,12 @@ class NewPage extends React.Component {
         }
     }
 
-    async handleSave() {
+    handleSave = async (e) => {
         this.setState({ saving: true });
 
-        const id = await this.props.onSave({ ...this.state.note });
+        const id = await this.props.onSave(this.state.note);
 
-        this.props.history.push(`/notes/${ id}`)
+        this.props.history.replace(`/notes/${ id}`)
     }
 
     updateValue(e) {
