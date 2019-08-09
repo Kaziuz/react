@@ -27,19 +27,43 @@ class App extends React.Component {
     this.setState({ notes, loading: false })
   }
 
-  async handleSave (note, method) {
+  async handleCreate (note, method) {
     // aqui llega la nota a hacerle put o post
     let res = await this.state.db[method](note);
     let { notes } = this.state
 
     note._id = res.id
-    note._rev = res._rev
 
     this.setState({
       notes: { ...notes, [res.id]: note }
     })
 
     return res
+  }
+
+  async handleEdit (note, method) {
+    // aqui llega la nota a hacerle put o post
+    let res = await this.state.db[method](note);
+    let { notes } = this.state
+
+    note._id = res.id
+
+    this.setState({
+      notes: { ...notes, [res.id]: note }
+    })
+
+    return res
+  }
+
+  async handleDelete(id) {
+    let { notes } = this.state
+    let note = notes[id]
+
+    if(notes[id] && window.confirm("esta seguro de borrarlo?")) {
+      await this.state.db.deleteNote(note)
+      delete notes[id]
+      this.setState({ notes })
+    }
   }
 
   renderContent() {
@@ -54,21 +78,22 @@ class App extends React.Component {
       />
 
       <Route exact path="/notes/:id" component={props => 
-        <ShowPage {...props} 
+        <ShowPage {...props}
+          onDelete={id => this.handleDelete(id)}
           note={this.state.notes[props.match.params.id]} 
         />}
       />
 
       <Route path="/notes/:id/edit" component={props =>
         <EditPage {...props}
-          onSave={note => this.handleSave(note, 'updateNote')} 
+          onSave={note => this.handleEdit(note, 'updateNote')} 
           note={this.state.notes[props.match.params.id]} 
         />
       } />
 
       <Route path="/new" component={props => 
-        <NewPage {...props} 
-          note={this.state.notes[props.match.params.id]} 
+        <NewPage {...props}
+          onSave={note => this.handleCreate(note, 'createNote')}
         />} 
       />
     </div>
@@ -76,6 +101,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log('db', this.state.db)
     return (
       <BrowserRouter>
       <div className="App">
