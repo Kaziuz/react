@@ -1,0 +1,40 @@
+{
+    "productos": [
+      {
+        "id": 0,
+        "nombre": "Pastel de Vainilla ",
+        "precio": "100"
+      },
+      {
+        "id": 1,
+        "nombre": "Pastel de manzana",
+        "precio": 60
+      },
+      {
+        "id": 2,
+        "nombre": "Pastel de guayaba",
+        "precio": 60
+      },
+      {
+        "id": 3,
+        "nombre": "Pastel zarzamora",
+        "precio": 30
+      },
+      {
+        "id": 4,
+        "nombre": "Pastel de Zanahoria",
+        "precio": "45"
+      },
+      {
+        "id": 5,
+        "nombre": "Pastel de Chocolate",
+        "precio": "60"
+      },
+      {
+        "id": 6,
+        "nombre": "Pastel de Fresa",
+        "precio": "40"
+        
+      }
+    ]
+  }
